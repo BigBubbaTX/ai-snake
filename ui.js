@@ -88,9 +88,14 @@ document.getElementById("reset").addEventListener("click", () => {
   agent.reset();
   episode = 0;
   best = 0;
+
+  last100 = [];
+  avg100 = 0;
+
   resetGame();
   updateStats();
 });
+
 
 // --- Human controls (prevents instant reversal) ---
 document.addEventListener("keydown", (e) => {
