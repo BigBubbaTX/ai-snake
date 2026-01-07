@@ -5,7 +5,7 @@ class Agent {
 this.gamma = 0.95;
 this.epsilon = 1.0;
 this.decay = 0.9999;   // slower than before
-this.minEpsilon = 0.02;
+this.minEpsilon = 0.10;
 
 
 
