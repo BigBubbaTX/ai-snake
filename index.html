@@ -12,19 +12,42 @@
 <div class="container">
   <canvas id="game" width="400" height="400"></canvas>
 
-  <div class="panel">
-    <button id="playHuman">Play (Human)</button>
-    <button id="trainAI">Train AI</button>
-    <button id="watchAI">Watch AI</button>
-    <button id="reset">Reset Q-Table</button>
+ <div class="panel">
+  <button id="playHuman">Play (Human)</button>
+  <button id="trainAI">Train AI</button>
+  <button id="watchAI">Watch AI</button>
+  <button id="reset">Reset Q-Table</button>
 
-    <div class="stats">
-      <p>Episode: <span id="episode">0</span></p>
-      <p>Score: <span id="score">0</span></p>
-      <p>Best: <span id="best">0</span></p>
-      <p>Epsilon: <span id="epsilon">1.00</span></p>
-    </div>
+  <hr />
+
+  <label class="label">
+    Episodes per frame: <span id="epfLabel">50</span>
+    <input id="epf" type="range" min="1" max="300" value="50" />
+  </label>
+
+  <label class="label">
+    Watch speed (ms/step): <span id="watchLabel">80</span>
+    <input id="watchSpeed" type="range" min="10" max="200" value="80" />
+  </label>
+
+  <label class="label">
+    Target episodes:
+    <input id="targetEpisodes" type="number" value="10000" min="1" step="1000" />
+  </label>
+
+  <div class="progressWrap">
+    <div id="progressBar"></div>
   </div>
+  <p class="small" id="progressText">0 / 10000</p>
+
+  <div class="stats">
+    <p>Episode: <span id="episode">0</span></p>
+    <p>Score: <span id="score">0</span></p>
+    <p>Best: <span id="best">0</span></p>
+    <p>Epsilon: <span id="epsilon">1.00</span></p>
+  </div>
+</div>
+
 </div>
 
 <script src="agent.js"></script>
