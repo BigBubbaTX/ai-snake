@@ -1,11 +1,12 @@
 class Agent {
   constructor() {
     this.q = {};
-    this.alpha = 0.1;
-    this.gamma = 0.9;
-    this.epsilon = 1.0;
-    this.minEpsilon = 0.05;
-    this.decay = 0.995;
+    this.alpha = 0.15;     // learn a bit faster
+this.gamma = 0.95;     // value future more
+this.epsilon = 1.0;
+this.minEpsilon = 0.05;
+this.decay = 0.999;    // MUCH slower decay (key!)
+
   }
 
   getKey(state) {
