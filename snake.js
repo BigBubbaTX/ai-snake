@@ -45,59 +45,66 @@ function getState() {
       nx < 0 || ny < 0 || nx >= cells || ny >= cells ||
       snake.some(s => s.x === nx && s.y === ny)
     );
-    function danger2(dx, dy) {
-  const nx = head.x + dx * 2;
-  const ny = head.y + dy * 2;
+  }
 
-  // check the intermediate step too
-  const ix = head.x + dx;
-  const iy = head.y + dy;
+  function danger2(dx, dy) {
+    // check 1-step
+    const ix = head.x + dx;
+    const iy = head.y + dy;
+    if (
+      ix < 0 || iy < 0 || ix >= cells || iy >= cells ||
+      snake.some(s => s.x === ix && s.y === iy)
+    ) return true;
 
-  const hitIntermediate =
-    ix < 0 || iy < 0 || ix >= cells || iy >= cells ||
-    snake.some(s => s.x === ix && s.y === iy);
+    // check 2-step
+    const nx = head.x + dx * 2;
+    const ny = head.y + dy * 2;
+    if (
+      nx < 0 || ny < 0 || nx >= cells || ny >= cells ||
+      snake.some(s => s.x === nx && s.y === ny)
+    ) return true;
 
-  const hitFinal =
-    nx < 0 || ny < 0 || nx >= cells || ny >= cells ||
-    snake.some(s => s.x === nx && s.y === ny);
-
-  return hitIntermediate || hitFinal;
-}
-
+    return false;
   }
 
   // relative directions based on current dir
   const straight = { x: dir.x, y: dir.y };
-  const left = { x: -dir.y, y: dir.x };
-  const right = { x: dir.y, y: -dir.x };
+  const left     = { x: -dir.y, y: dir.x };
+  const right    = { x: dir.y, y: -dir.x };
 
   // direction one-hot
-  const dirUp = (dir.x === 0 && dir.y === -1) ? 1 : 0;
+  const dirUp    = (dir.x === 0 && dir.y === -1) ? 1 : 0;
   const dirRight = (dir.x === 1 && dir.y === 0) ? 1 : 0;
-  const dirDown = (dir.x === 0 && dir.y === 1) ? 1 : 0;
-  const dirLeft = (dir.x === -1 && dir.y === 0) ? 1 : 0;
+  const dirDown  = (dir.x === 0 && dir.y === 1) ? 1 : 0;
+  const dirLeft  = (dir.x === -1 && dir.y === 0) ? 1 : 0;
 
   // food relative: forward/left/right
   const fx = food.x - head.x;
   const fy = food.y - head.y;
 
   const foodStraight = (fx * straight.x + fy * straight.y) > 0 ? 1 : 0;
-  const foodLeft = (fx * left.x + fy * left.y) > 0 ? 1 : 0;
-  const foodRight = (fx * right.x + fy * right.y) > 0 ? 1 : 0;
+  const foodLeft     = (fx * left.x + fy * left.y) > 0 ? 1 : 0;
+  const foodRight    = (fx * right.x + fy * right.y) > 0 ? 1 : 0;
 
   return [
+    // 1-step danger
     danger(straight.x, straight.y) ? 1 : 0,
     danger(left.x, left.y) ? 1 : 0,
     danger(right.x, right.y) ? 1 : 0,
-danger2(straight.x, straight.y) ? 1 : 0,
-danger2(left.x, left.y) ? 1 : 0,
-danger2(right.x, right.y) ? 1 : 0,
 
+    // 2-step danger
+    danger2(straight.x, straight.y) ? 1 : 0,
+    danger2(left.x, left.y) ? 1 : 0,
+    danger2(right.x, right.y) ? 1 : 0,
+
+    // heading
     dirUp, dirRight, dirDown, dirLeft,
 
-    foodStraight, foodLeft, foodRight,
+    // food relative
+    foodStraight, foodLeft, foodRight
   ];
 }
+
 
 function turn(action) {
   // 0 = straight, 1 = left, 2 = right
