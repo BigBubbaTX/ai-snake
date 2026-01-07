@@ -2,6 +2,8 @@
 
 let episode = 0;
 let best = 0;
+let last100 = [];
+let avg100 = 0;
 
 resetGame();
 
@@ -121,6 +123,9 @@ function trainLoop() {
         const action = agent.chooseAction(getState());
         step(action);
       }
+last100.push(score);
+if (last100.length > 100) last100.shift();
+avg100 = last100.reduce((a,b)=>a+b,0) / last100.length;
 
       if (score > best) best = score;
     }
