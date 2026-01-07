@@ -72,11 +72,13 @@ document.getElementById("playHuman").addEventListener("click", () => {
 
 document.getElementById("trainAI").addEventListener("click", () => {
   mode = "train";
+  agent.epsilon = Math.max(agent.epsilon, 0.3); 
   trainLoop();
 });
 
 document.getElementById("watchAI").addEventListener("click", () => {
   mode = "watch";
+  agent.epsilon = 0;
   resetGame();
 });
 
