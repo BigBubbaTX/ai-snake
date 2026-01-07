@@ -69,8 +69,11 @@ targetInput.addEventListener("input", () => {
 // --- Buttons ---
 document.getElementById("playHuman").addEventListener("click", () => {
   mode = "human";
+  training = false;
   resetGame();
+  updateStats();
 });
+
 
 document.getElementById("trainAI").addEventListener("click", () => {
   mode = "train";
@@ -80,9 +83,12 @@ document.getElementById("trainAI").addEventListener("click", () => {
 
 document.getElementById("watchAI").addEventListener("click", () => {
   mode = "watch";
-  agent.epsilon = 0;
+  training = false;          // <-- stop training loop
+  agent.epsilon = 0;         // <-- deterministic demo
   resetGame();
+  updateStats();             // <-- update UI immediately
 });
+
 
 document.getElementById("reset").addEventListener("click", () => {
   agent.reset();
@@ -92,9 +98,13 @@ document.getElementById("reset").addEventListener("click", () => {
   last100 = [];
   avg100 = 0;
 
+  training = false;
+  mode = "human";
+
   resetGame();
   updateStats();
 });
+
 
 
 // --- Human controls (prevents instant reversal) ---
@@ -116,9 +126,9 @@ function trainLoop() {
   training = true;
 
   const tick = () => {
-    if (mode !== "train") { training = false; return; }
+  if (!training || mode !== "train") { training = false; return; }
 
-    const target = getTarget();
+  const target = getTarget();
 
     for (let i = 0; i < episodesPerFrame && episode < target; i++) {
       resetGame();
@@ -168,8 +178,12 @@ function updateStats() {
   document.getElementById("score").textContent = score;
   document.getElementById("best").textContent = best;
   document.getElementById("epsilon").textContent = agent.epsilon.toFixed(2);
+
+  document.getElementById("avg100").textContent = avg100.toFixed(2);
+
   updateProgress();
 }
+
 
 // start
 updateStats();
