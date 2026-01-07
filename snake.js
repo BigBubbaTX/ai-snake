@@ -154,7 +154,8 @@ function step(action = null) {
   }
 
   // dynamic stall cap: longer snake gets more steps to find food
-  const maxSteps = 120 + snake.length * 25;
+  const maxSteps = 200 + snake.length * 40;
+
   if (stepsSinceFood >= maxSteps) {
     alive = false;
     reward = -10;
