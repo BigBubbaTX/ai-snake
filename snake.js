@@ -3,6 +3,9 @@ const ctx = canvas.getContext("2d");
 
 const size = 20;
 const cells = 20;
+let steps;
+let lastDist;
+const MAX_STEPS = 200; // increase as it gets better: 200 -> 300 -> 500
 
 let snake, dir, food, score, alive;
 let mode = "human";
