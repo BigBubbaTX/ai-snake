@@ -30,23 +30,28 @@ document.addEventListener("keydown", e => {
   if (e.key === "ArrowRight") dir = { x: 1, y: 0 };
 });
 
+const EPISODES_PER_FRAME = 50; // try 50, 100, even 200 on a good PC
+
 function trainLoop() {
   if (mode !== "train") return;
 
-  resetGame();
-  episode++;
+  for (let i = 0; i < EPISODES_PER_FRAME; i++) {
+    resetGame();
+    episode++;
 
-  while (alive) {
-    const state = getState();
-    const action = agent.chooseAction(state);
-    step(action);
+    while (alive) {
+      const state = getState();
+      const action = agent.chooseAction(state);
+      step(action);
+    }
+
+    best = Math.max(best, score);
   }
 
-  best = Math.max(best, score);
   updateStats();
-
   requestAnimationFrame(trainLoop);
 }
+
 
 function gameLoop() {
   if (mode === "watch") {
