@@ -14,9 +14,14 @@ let agent = new Agent();
 function resetGame() {
   snake = [{ x: 10, y: 10 }];
   dir = { x: 1, y: 0 };
-  score = 0;
+  steps = 0;
+  lastDist = distToFood();
   alive = true;
   spawnFood();
+}
+function distToFood() {
+  const head = snake[0];
+  return Math.abs(head.x - food.x) + Math.abs(head.y - food.y); // Manhattan distance
 }
 
 function spawnFood() {
@@ -52,40 +57,31 @@ function turn(action) {
   if (action === 2) dir = { x: dir.y, y: -dir.x };
 }
 
-function step(action = null) {
-  if (!alive) return;
+steps++;
 
-  const prevState = getState();
-  if (action !== null) turn(action);
+let reward = -0.02; // small step penalty so it doesn't wander
 
-  const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
+// distance shaping
+const d = distToFood();
+if (d < lastDist) reward += 0.3;
+else if (d > lastDist) reward -= 0.3;
+lastDist = d;
 
-  if (
-    head.x < 0 || head.y < 0 ||
-    head.x >= cells || head.y >= cells ||
-    snake.some(s => s.x === head.x && s.y === head.y)
-  ) {
-    alive = false;
-    if (mode !== "human") agent.learn(prevState, action, -10, getState());
-    return;
-  }
-
-  snake.unshift(head);
-
-  let reward = -0.01;
-
-  if (head.x === food.x && head.y === food.y) {
-    score++;
-    reward = 10;
-    spawnFood();
-  } else {
-    snake.pop();
-  }
-
-  if (mode !== "human") {
-    agent.learn(prevState, action, reward, getState());
-  }
+if (head.x === food.x && head.y === food.y) {
+  score++;
+  reward = 15;          // stronger food reward
+  steps = 0;            // reset stall counter when it succeeds
+  spawnFood();
+} else {
+  snake.pop();
 }
+
+// stop infinite loops / stalling
+if (steps >= MAX_STEPS) {
+  alive = false;
+  reward = -5;
+}
+
 
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
