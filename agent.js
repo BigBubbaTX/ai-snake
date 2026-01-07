@@ -4,8 +4,9 @@ class Agent {
    this.alpha = 0.2;
 this.gamma = 0.95;
 this.epsilon = 1.0;
-this.minEpsilon = 0.05;
-this.decay = 0.9995; // slower decay helps Snake a LOT
+this.decay = 0.9999;   // slower than before
+this.minEpsilon = 0.02;
+
 
 
   }
