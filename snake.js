@@ -137,10 +137,11 @@ function step(action = null) {
   let reward = -0.05; // small step penalty to avoid wandering forever
 
   // distance shaping
-  const d = distToFood();
-  if (d < lastDist) reward += 0.4;
-  else if (d > lastDist) reward -= 0.4;
-  lastDist = d;
+const d = distToFood();
+if (d < lastDist) reward += 0.15;
+else if (d > lastDist) reward -= 0.15;
+lastDist = d;
+
 
   // eat food
   if (head.x === food.x && head.y === food.y) {
@@ -154,7 +155,8 @@ function step(action = null) {
   }
 
   // dynamic stall cap: longer snake gets more steps to find food
-  const maxSteps = 200 + snake.length * 40;
+  const maxSteps = 400 + snake.length * 60;
+
 
   if (stepsSinceFood >= maxSteps) {
     alive = false;
