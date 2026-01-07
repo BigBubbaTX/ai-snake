@@ -1,5 +1,10 @@
 let episode = 0;
 let best = 0;
+console.log("ui.js loaded ✅", new Date().toLocaleTimeString());
+console.log("ui.js loaded ✅");
+
+console.log("initial epf value =", epfSlider?.value);
+console.log("initial target =", targetInput?.value);
 
 resetGame();
 
@@ -66,6 +71,7 @@ if (epfSlider) {
   epfSlider.oninput = () => {
     episodesPerFrame = Number(epfSlider.value);
     epfLabel.textContent = episodesPerFrame;
+     console.log("episodesPerFrame =", episodesPerFrame);
   };
 }
 
