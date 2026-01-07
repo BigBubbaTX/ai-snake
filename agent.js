@@ -1,11 +1,12 @@
 class Agent {
   constructor() {
     this.q = {};
-    this.alpha = 0.15;     // learn a bit faster
-this.gamma = 0.95;     // value future more
+   this.alpha = 0.2;
+this.gamma = 0.95;
 this.epsilon = 1.0;
 this.minEpsilon = 0.05;
-this.decay = 0.999;    // MUCH slower decay (key!)
+this.decay = 0.9995; // slower decay helps Snake a LOT
+
 
   }
 
