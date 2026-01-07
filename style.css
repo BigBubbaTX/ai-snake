@@ -35,7 +35,6 @@ button {
   text-align: left;
 }
 hr { border: none; border-top: 1px solid #333; margin: 10px 0; }
-
 .label { text-align: left; font-size: 14px; }
 .label input[type="range"] { width: 240px; display: block; }
 
@@ -55,4 +54,5 @@ hr { border: none; border-top: 1px solid #333; margin: 10px 0; }
 }
 
 .small { font-size: 12px; color: #bbb; margin: 6px 0 0; }
+
 
