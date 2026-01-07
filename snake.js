@@ -45,6 +45,25 @@ function getState() {
       nx < 0 || ny < 0 || nx >= cells || ny >= cells ||
       snake.some(s => s.x === nx && s.y === ny)
     );
+    function danger2(dx, dy) {
+  const nx = head.x + dx * 2;
+  const ny = head.y + dy * 2;
+
+  // check the intermediate step too
+  const ix = head.x + dx;
+  const iy = head.y + dy;
+
+  const hitIntermediate =
+    ix < 0 || iy < 0 || ix >= cells || iy >= cells ||
+    snake.some(s => s.x === ix && s.y === iy);
+
+  const hitFinal =
+    nx < 0 || ny < 0 || nx >= cells || ny >= cells ||
+    snake.some(s => s.x === nx && s.y === ny);
+
+  return hitIntermediate || hitFinal;
+}
+
   }
 
   // relative directions based on current dir
@@ -70,6 +89,9 @@ function getState() {
     danger(straight.x, straight.y) ? 1 : 0,
     danger(left.x, left.y) ? 1 : 0,
     danger(right.x, right.y) ? 1 : 0,
+danger2(straight.x, straight.y) ? 1 : 0,
+danger2(left.x, left.y) ? 1 : 0,
+danger2(right.x, right.y) ? 1 : 0,
 
     dirUp, dirRight, dirDown, dirLeft,
 
