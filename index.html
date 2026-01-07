@@ -1,1 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI Learns Snake</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<h1>🐍 AI Learns Snake (Q-Learning)</h1>
+
+<div class="container">
+  <canvas id="game" width="400" height="400"></canvas>
+
+  <div class="panel">
+    <button id="playHuman">Play (Human)</button>
+    <button id="trainAI">Train AI</button>
+    <button id="watchAI">Watch AI</button>
+    <button id="reset">Reset Q-Table</button>
+
+    <div class="stats">
+      <p>Episode: <span id="episode">0</span></p>
+      <p>Score: <span id="score">0</span></p>
+      <p>Best: <span id="best">0</span></p>
+      <p>Epsilon: <span id="epsilon">1.00</span></p>
+    </div>
+  </div>
+</div>
+
+<script src="agent.js"></script>
+<script src="snake.js"></script>
+<script src="ui.js"></script>
+</body>
+</html>
 
